@@ -1,0 +1,2353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oakland County School Counseling Program Profiles</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text: #333;
+            --text-light: #666;
+            --border: #e0e0e0;
+            --shadow: 0 4px 6px rgba(0,0,0,0.05);
+            
+            /* Badge Colors */
+            --badge-counselor-bg: #e8f5e9;
+            --badge-counselor-text: #2e7d32;
+            
+            --badge-admin-bg: #e3f2fd;
+            --badge-admin-text: #1565c0;
+            
+            --badge-purple-bg: #f3e5f5; /* Light Purple for 'Other Role' */
+            --badge-purple-text: #7b1fa2;
+            
+            --badge-na-bg: #f5f5f5; /* Grey for N/A */
+            --badge-na-text: #616161;
+        }
+
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, var(--primary), #34495e);
+            color: white;
+            border-radius: 0 0 15px 15px;
+            box-shadow: var(--shadow);
+        }
+        
+        header h1 { margin: 0 0 10px 0; font-size: 2.2rem; }
+        header p { margin: 0; opacity: 0.9; font-size: 1.1rem; }
+
+        /* Controls */
+        .controls-container {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .control-group {
+            flex: 1;
+            min-width: 250px;
+            max-width: 400px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--primary);
+            font-size: 0.95rem;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.2s;
+            cursor: pointer;
+            background-color: white;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+        
+        select:disabled {
+            background-color: #f9f9f9;
+            color: #aaa;
+            cursor: not-allowed;
+        }
+
+        /* Profile Card */
+        #profile-display { display: none; animation: slideUp 0.4s ease-out; }
+
+        .profile-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        /* Card Header */
+        .card-header {
+            background: var(--primary);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+        .card-header h2 { margin: 0; font-size: 2rem; }
+        .card-header h3 { 
+            margin: 5px 0 0 0; 
+            font-weight: 400; 
+            opacity: 0.9;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Sections */
+        .card-body { padding: 30px; }
+
+        .section-title {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-light);
+            font-weight: 700;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 5px;
+        }
+
+        /* Overview Grid */
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .info-item label { font-size: 0.8rem; color: var(--text-light); margin-bottom: 4px; }
+        .info-item div { font-weight: 600; font-size: 1.1rem; color: var(--primary); }
+
+        /* Staffing Section */
+        .staffing-container {
+            background: #f8fbff;
+            border: 1px solid #e1e8ed;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .stat-box { text-align: center; }
+        .stat-box.primary { transform: scale(1.1); }
+        
+        .stat-label { font-size: 0.85rem; color: var(--text-light); font-weight: 600; text-transform: uppercase; }
+        .stat-value { font-size: 1.8rem; font-weight: 700; color: var(--primary); }
+        .stat-value.highlight { color: var(--secondary); font-size: 2.8rem; line-height: 1; }
+
+        /* Coordination List */
+        .coord-list {
+            display: grid;
+            gap: 15px;
+        }
+
+        .coord-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start; /* Align to top for multiline */
+            padding: 12px 15px;
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            transition: transform 0.2s;
+        }
+        .coord-item:hover { background: #fafafa; }
+
+        .coord-name { 
+            font-weight: 600; 
+            color: var(--text); 
+            min-width: 200px; 
+            flex-shrink: 0;
+            margin-top: 6px; /* Align with first badge */
+        }
+        
+        .badge-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: flex-end;
+            flex: 1;
+        }
+
+        /* Badges */
+        .role-badge {
+            font-size: 0.85rem;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            white-space: normal;
+            text-align: right;
+        }
+        
+        /* Specific Badge Classes */
+        .badge-counselor { background: var(--badge-counselor-bg); color: var(--badge-counselor-text); }
+        .badge-admin { background: var(--badge-admin-bg); color: var(--badge-admin-text); }
+        .badge-purple { background: var(--badge-purple-bg); color: var(--badge-purple-text); }
+        .badge-na { background: var(--badge-na-bg); color: var(--badge-na-text); }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+        .empty-icon { font-size: 4rem; margin-bottom: 20px; opacity: 0.3; }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .controls-container { flex-direction: column; align-items: stretch; }
+            .staffing-container { flex-direction: column; text-align: center; }
+            .coord-item { flex-direction: column; align-items: stretch; gap: 10px; }
+            .coord-name { margin-top: 0; }
+            .badge-container { justify-content: flex-start; }
+            .role-badge { text-align: left; }
+            .card-header h2 { font-size: 1.5rem; }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media print {
+            header, .controls-container, footer { display: none !important; }
+            .container { width: 100%; max-width: none; padding: 0; }
+            .profile-card { box-shadow: none; border: none; }
+            .card-header { color: black; background: none; border-bottom: 2px solid black; padding: 0 0 20px 0; text-align: left; }
+            .card-header h2 { font-size: 24pt; }
+            .staffing-container { border: 1px solid #ccc; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1><i class="fas fa-school"></i> School Counseling Program Profiles</h1>
+        <p>Oakland County • 2025-2026</p>
+    </header>
+
+    <div class="controls-container">
+        <div class="control-group">
+            <label for="district-select">Filter by District</label>
+            <select id="district-select">
+                <option value="">-- Select a District --</option>
+            </select>
+        </div>
+
+        <div class="control-group">
+            <label for="school-select">Select School</label>
+            <select id="school-select" disabled>
+                <option value="">-- Select a School --</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="empty-state" class="empty-state">
+        <div class="empty-icon"><i class="fas fa-clipboard-list"></i></div>
+        <h3>Select a school to view its profile</h3>
+        <p>Use the dropdowns above to select a District and School.</p>
+    </div>
+
+    <div id="profile-display" class="profile-card">
+        <div class="card-header">
+            <h2 id="disp-school"></h2>
+            <h3 id="disp-district"></h3>
+        </div>
+        
+        <div class="card-body">
+            
+            <div class="section-title">Overview</div>
+            <div class="overview-grid">
+                <div class="info-item">
+                    <label>Grades Served</label>
+                    <div id="disp-grades"></div>
+                </div>
+                <div class="info-item">
+                    <label>School Type</label>
+                    <div id="disp-type"></div>
+                </div>
+                <div class="info-item">
+                    <label>Caseload Model</label>
+                    <div id="disp-caseload"></div>
+                </div>
+            </div>
+
+            <div class="section-title">Staffing & Ratios</div>
+            <div class="staffing-container">
+                <div class="stat-box">
+                    <div class="stat-label">Enrollment</div>
+                    <div class="stat-value" id="disp-enrollment"></div>
+                </div>
+                
+                <div class="stat-box primary">
+                    <div class="stat-label">Students per Counselor</div>
+                    <div class="stat-value highlight" id="disp-ratio"></div>
+                </div>
+
+                <div class="stat-box">
+                    <div class="stat-label">Counselor FTE</div>
+                    <div class="stat-value" id="disp-fte"></div>
+                </div>
+            </div>
+
+            <div class="section-title">Program Coordination</div>
+            <div class="coord-list" id="coord-list">
+                </div>
+
+        </div>
+    </div>
+    
+    <footer style="text-align: center; margin-top: 40px; color: #888; font-size: 0.9rem;">
+        <p>Data provided by Oakland County school counselor completion of the School Counseling Program Profiles 2025-2026 survey</p>
+	<p>Enrollment data provided by MI School Data 2024-2025 Student Enrollment Counts Report</p>
+	<p>If your school's data is not present, complete the <a href="https://forms.gle/74ZyNK9CkH2ELsoD7" target="_blank">School Counseling Program Profiles Survey</a></p>
+	<p>Contact <a href="mailto:sean.dougherty@oakland.k12.mi.us?subject=School Counseling Program Profile">Sean Dougherty</a>, School Counseling Consultant at Oakland Schools, with any questions or if you notice errors in your school's data.</p>
+    </footer>
+
+</div>
+
+<script>
+    // -------------------------------------------------------------------------
+    // PASTE YOUR JSON DATA HERE
+    // Ensure it is a valid JavaScript array of objects
+    // -------------------------------------------------------------------------
+    
+    const schoolData = [
+ {
+   "School Name": "Avondale High School",
+   "District Name": "Avondale",
+   "Grades Served": "9, 10, 11, 12",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 3,
+   "Enrollment": "911",
+   "Students per 1.0 FTE Counselor": "304",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "Other Role: Teachers",
+   "AP Testing Coordinator (high school only)": "School Counselor",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "School Counselor",
+   "Online Course (21f) Coordinator": "School Counselor",
+   "Additional Specialized Program Coordinator": "Dual Enrollment, Early Middle College, School of Choice, MTSS, Crisis Response, Threat Assessment, NHS, College and Career Readiness, OSTC, Summer School, Parent Nights"
+ },
+ {
+   "School Name": "Avondale Middle School",
+   "District Name": "Avondale",
+   "Grades Served": "6, 7, 8",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 2,
+   "Enrollment": "639",
+   "Students per 1.0 FTE Counselor": "320",
+   "Caseload Distribution": "Grade Level (6, 7), Alpha (8)",
+   "State Testing Coordinator": "Other Role: Teachers",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "School Counselors, Administrator, Other Role: Secretary",
+   "Online Course (21f) Coordinator": "Not applicable",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "GATE Magnet School",
+   "District Name": "Avondale",
+   "Grades Served": "6, 7, 8",
+   "School Type": "Magnet",
+   "Counselor FTE Staffing": 1,
+   "Enrollment": "381",
+   "Students per 1.0 FTE Counselor": "381",
+   "Caseload Distribution": "All Students (one counselor)",
+   "State Testing Coordinator": "Administrator",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "School Counselor",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Not applicable",
+   "Online Course (21f) Coordinator": "School Counselor",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Anderson Middle School",
+   "District Name": "Berkley",
+   "Grades Served": "6, 7, 8",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 2,
+   "Enrollment": "489",
+   "Students per 1.0 FTE Counselor": "245",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "School Counselor",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Other Role: Secretary",
+   "Online Course (21f) Coordinator": "Not applicable",
+   "Additional Specialized Program Coordinator": "SEL Coordination, Career Development"
+ },
+ {
+   "School Name": "Angell Elementary",
+   "District Name": "Berkley",
+   "Grades Served": "PK, K, 1, 2, 3, 4, 5",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 1,
+   "Enrollment": "411",
+   "Students per 1.0 FTE Counselor": "411",
+   "Caseload Distribution": "All Students (one counselor)",
+   "State Testing Coordinator": "Administrator",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Not applicable",
+   "Online Course (21f) Coordinator": "Not applicable",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Berkley High School",
+   "District Name": "Berkley",
+   "Grades Served": "9, 10, 11, 12",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 5,
+   "Enrollment": "1214",
+   "Students per 1.0 FTE Counselor": "243",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "School Counselor",
+   "AP Testing Coordinator (high school only)": "School Counselor",
+   "504 Coordinator": "Other Role: 504 Coordinator",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Administrator",
+   "Online Course (21f) Coordinator": "School Counselor",
+   "Additional Specialized Program Coordinator": "Detroit Regional Dollars for Scholars"
+ },
+ {
+   "School Name": "Norup International School",
+   "District Name": "Berkley",
+   "Grades Served": "K, 1, 2, 3, 4, 5, 6, 7, 8",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 2,
+   "Enrollment": "672",
+   "Students per 1.0 FTE Counselor": "336",
+   "Caseload Distribution": "Grade Level",
+   "State Testing Coordinator": "Administrator",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Not applicable",
+   "Online Course (21f) Coordinator": "Not applicable",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Rogers Elementary ",
+   "District Name": "Berkley",
+   "Grades Served": "PK, K, 1, 2, 3, 4, 5",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 1,
+   "Enrollment": "366",
+   "Students per 1.0 FTE Counselor": "366",
+   "Caseload Distribution": "All Students (one counselor)",
+   "State Testing Coordinator": "Administrator",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Administrator",
+   "Online Course (21f) Coordinator": "Not applicable",
+   "Additional Specialized Program Coordinator": "SEL Coordination"
+ },
+ {
+   "School Name": "Berkshire Middle School",
+   "District Name": "Birmingham",
+   "Grades Served": "6, 7, 8",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 3,
+   "Enrollment": "695",
+   "Students per 1.0 FTE Counselor": "232",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "Test Coordinator",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "School Counselor",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Not applicable",
+   "Online Course (21f) Coordinator": "Not applicable",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Beverly Elementary",
+   "District Name": "Birmingham",
+   "Grades Served": "PK, K, 1, 2, 3, 4, 5",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 0.5,
+   "Enrollment": "296",
+   "Students per 1.0 FTE Counselor": "592",
+   "Caseload Distribution": "All Students (one counselor)",
+   "State Testing Coordinator": "Other Role: Instructional Specialist",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "Other Role: Instructional Specialist",
+   "Master Schedule Process Coordinator": "Not applicable",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Not applicable",
+   "Online Course (21f) Coordinator": "Not applicable",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Greenfield Elementary",
+   "District Name": "Birmingham",
+   "Grades Served": "K, 1, 2, 3, 4, 5",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 0.5,
+   "Enrollment": "248",
+   "Students per 1.0 FTE Counselor": "496",
+   "Caseload Distribution": "All Students (one counselor)",
+   "State Testing Coordinator": "Other Role: Instructional Specialist",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "Other Role: Instructional Specialist",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Not applicable",
+   "Online Course (21f) Coordinator": "Not applicable",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Groves High School",
+   "District Name": "Birmingham",
+   "Grades Served": "9, 10, 11, 12",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 6,
+   "Enrollment": "1108",
+   "Students per 1.0 FTE Counselor": "185",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "School Counselor",
+   "AP Testing Coordinator (high school only)": "School Counselor",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "School Counselor",
+   "Online Course (21f) Coordinator": "Administrator",
+   "Additional Specialized Program Coordinator": "NHS"
+ },
+ {
+   "School Name": "Lincoln Street Alternative",
+   "District Name": "Birmingham",
+   "Grades Served": "10, 11, 12",
+   "School Type": "Alternative Education",
+   "Counselor FTE Staffing": 1,
+   "Enrollment": "n/a",
+   "Students per 1.0 FTE Counselor": "n/a",
+   "Caseload Distribution": "All Students (one counselor)",
+   "State Testing Coordinator": "Not applicable",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "Not applicable",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Administrator, Other Role: Teacher",
+   "Online Course (21f) Coordinator": "Administrator",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Pembroke Elementary",
+   "District Name": "Birmingham",
+   "Grades Served": "PK, K, 1, 2, 3, 4, 5",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 0.5,
+   "Enrollment": "324",
+   "Students per 1.0 FTE Counselor": "648",
+   "Caseload Distribution": "All Students (one counselor)",
+   "State Testing Coordinator": "Administrator",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "Administrator",
+   "Master Schedule Process Coordinator": "Not applicable",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Not applicable",
+   "Online Course (21f) Coordinator": "Not applicable",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Seaholm High School",
+   "District Name": "Birmingham",
+   "Grades Served": "9, 10, 11, 12",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 5,
+   "Enrollment": "1104",
+   "Students per 1.0 FTE Counselor": "221",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "School Counselor",
+   "AP Testing Coordinator (high school only)": "School Counselor",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Administrator",
+   "Online Course (21f) Coordinator": "Administrator",
+   "Additional Specialized Program Coordinator": "UMatter Committee"
+ },
+ {
+   "School Name": "West Maple Elementary",
+   "District Name": "Birmingham",
+   "Grades Served": "PK, K, 1, 2, 3, 4, 5",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 1,
+   "Enrollment": "529",
+   "Students per 1.0 FTE Counselor": "529",
+   "Caseload Distribution": "All Students (one counselor)",
+   "State Testing Coordinator": "Other Role: Instructional Specialist",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "Other Role: Instructional Specialist",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Administrator",
+   "Online Course (21f) Coordinator": "Not applicable",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Quarton Elementary",
+   "District Name": "Birmingham",
+   "Grades Served": "K, 1, 2, 3, 4, 5",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 0.5,
+   "Enrollment": "371",
+   "Students per 1.0 FTE Counselor": "742",
+   "Caseload Distribution": "All Students (one counselor)",
+   "State Testing Coordinator": "Other Role: Instructional Specialist",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "Other Role: Instructional Specialist",
+   "Master Schedule Process Coordinator": "Not applicable",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Not applicable",
+   "Online Course (21f) Coordinator": "Not applicable",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "North Hills Middle School",
+   "District Name": "Bloomfield Hills",
+   "Grades Served": "6, 7, 8",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 3,
+   "Enrollment": "593",
+   "Students per 1.0 FTE Counselor": "198",
+   "Caseload Distribution": "Grade Level",
+   "State Testing Coordinator": "School Counselor",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Other Role: NJHS Sponsor",
+   "Online Course (21f) Coordinator": "Administrator",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "South Hills Middle School",
+   "District Name": "Bloomfield Hills",
+   "Grades Served": "6, 7, 8",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 3,
+   "Enrollment": "555",
+   "Students per 1.0 FTE Counselor": "185",
+   "Caseload Distribution": "Grade Level",
+   "State Testing Coordinator": "School Counselor",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "School Counselor",
+   "Online Course (21f) Coordinator": "School Counselor",
+   "Additional Specialized Program Coordinator": "NJHS, Math Test Out"
+ },
+ {
+   "School Name": "Brandon High School",
+   "District Name": "Brandon",
+   "Grades Served": "9, 10, 11, 12",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 2,
+   "Enrollment": "648",
+   "Students per 1.0 FTE Counselor": "324",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "School Counselor",
+   "AP Testing Coordinator (high school only)": "School Counselor",
+   "504 Coordinator": "Administrator",
+   "Master Schedule Process Coordinator": "School Counselor",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Administrator",
+   "Online Course (21f) Coordinator": "School Counselor",
+   "Additional Specialized Program Coordinator": "Dual Enrollment, Early Middle College"
+ },
+ {
+   "School Name": "Brandon Middle School ",
+   "District Name": "Brandon",
+   "Grades Served": "6, 7, 8",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 1,
+   "Enrollment": "436",
+   "Students per 1.0 FTE Counselor": "436",
+   "Caseload Distribution": "All Students (one counselor)",
+   "State Testing Coordinator": "School Counselor",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "Administrator",
+   "Master Schedule Process Coordinator": "School Counselor",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Not applicable",
+   "Online Course (21f) Coordinator": "School Counselor",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Harvey-Swanson Elementary",
+   "District Name": "Brandon",
+   "Grades Served": "K, 1, 2, 3, 4, 5",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 1,
+   "Enrollment": "548",
+   "Students per 1.0 FTE Counselor": "548",
+   "Caseload Distribution": "All Students (one counselor)",
+   "State Testing Coordinator": "Not applicable",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "Administrator",
+   "Master Schedule Process Coordinator": "Not applicable",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Not applicable",
+   "Online Course (21f) Coordinator": "Not applicable",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Oakwood Elementary",
+   "District Name": "Brandon",
+   "Grades Served": "K, 1, 2, 3, 4, 5",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 1,
+   "Enrollment": "371",
+   "Students per 1.0 FTE Counselor": "371",
+   "Caseload Distribution": "31n Mental Health Services for General Education Students",
+   "State Testing Coordinator": "Not applicable",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "Administrator",
+   "Master Schedule Process Coordinator": "Not applicable",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Not applicable",
+   "Online Course (21f) Coordinator": "Not applicable",
+   "Additional Specialized Program Coordinator": "31n Mental Health Grant"
+ },
+ {
+   "School Name": "Clarenceville High School",
+   "District Name": "Clarenceville",
+   "Grades Served": "9, 10, 11, 12",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 2,
+   "Enrollment": "563",
+   "Students per 1.0 FTE Counselor": "282",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "School Counselor",
+   "AP Testing Coordinator (high school only)": "School Counselor",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "School Counselor",
+   "Honors, Graduation, or Special Ceremony Coordinator": "School Counselor",
+   "Online Course (21f) Coordinator": "School Counselor",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Clarenceville Middle School",
+   "District Name": "Clarenceville",
+   "Grades Served": "6, 7, 8",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 1,
+   "Enrollment": "370",
+   "Students per 1.0 FTE Counselor": "370",
+   "Caseload Distribution": "All Students (one counselor)",
+   "State Testing Coordinator": "School Counselor",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "Other Role: Administrative Assistant ",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Other Role: Secretary",
+   "Online Course (21f) Coordinator": "Not applicable",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Clarkston High School",
+   "District Name": "Clarkston",
+   "Grades Served": "10, 11, 12",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 6,
+   "Enrollment": "1552",
+   "Students per 1.0 FTE Counselor": "259",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "Administrator",
+   "AP Testing Coordinator (high school only)": "School Counselor",
+   "504 Coordinator": "Administrator",
+   "Master Schedule Process Coordinator": "School Counselor",
+   "Honors, Graduation, or Special Ceremony Coordinator": "School Counselor, Other Role: Administrative Assistant",
+   "Online Course (21f) Coordinator": "School Counselor",
+   "Additional Specialized Program Coordinator": "Dual Enrollment, Early Middle College, OSTC, Scholarships, Test Out, CSM Tech Program, NCAA"
+ },
+ {
+   "School Name": "Clarkston Junior High School",
+   "District Name": "Clarkston",
+   "Grades Served": "8, 9",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 4,
+   "Enrollment": "1007",
+   "Students per 1.0 FTE Counselor": "252",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "Administrator",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "Administrator",
+   "Master Schedule Process Coordinator": "School Counselor",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Not applicable",
+   "Online Course (21f) Coordinator": "School Counselor",
+   "Additional Specialized Program Coordinator": "TECIP, Career Readiness"
+ },
+ {
+   "School Name": "Renaissance Alternative High School",
+   "District Name": "Clarkston",
+   "Grades Served": "9, 10, 11, 12",
+   "School Type": "Alternative Education",
+   "Counselor FTE Staffing": 1,
+   "Enrollment": "155",
+   "Students per 1.0 FTE Counselor": "155",
+   "Caseload Distribution": "All Students (one counselor)",
+   "State Testing Coordinator": "School Counselor",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "School Counselor",
+   "Honors, Graduation, or Special Ceremony Coordinator": "School Counselor",
+   "Online Course (21f) Coordinator": "School Counselor",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Sashabaw Middle School",
+   "District Name": "Clarkston",
+   "Grades Served": "6, 7",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 4,
+   "Enrollment": "933",
+   "Students per 1.0 FTE Counselor": "233",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "Administrator",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "Administrator",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Not applicable",
+   "Online Course (21f) Coordinator": "School Counselor",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Clawson High School",
+   "District Name": "Clawson",
+   "Grades Served": "9, 10, 11, 12",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 2,
+   "Enrollment": "369",
+   "Students per 1.0 FTE Counselor": "185",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "School Counselor",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "School Counselor",
+   "Online Course (21f) Coordinator": "School Counselor",
+   "Additional Specialized Program Coordinator": "Credit Recovery, SEL Coordination, Senior Class Advisor, CTE & Career Readiness Coordination "
+ },
+ {
+   "School Name": "Clawson Middle School",
+   "District Name": "Clawson",
+   "Grades Served": "6, 7, 8",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 1,
+   "Enrollment": "275",
+   "Students per 1.0 FTE Counselor": "275",
+   "Caseload Distribution": "All Students (one counselor)",
+   "State Testing Coordinator": "Administrator",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "School Counselor",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Administrator",
+   "Online Course (21f) Coordinator": "School Counselor",
+   "Additional Specialized Program Coordinator": "International Academy Process, STEMi Coordination"
+ },
+ {
+   "School Name": "East Middle School",
+   "District Name": "Farmington",
+   "Grades Served": "6, 7, 8",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 2,
+   "Enrollment": "555",
+   "Students per 1.0 FTE Counselor": "278",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "Administrator",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "Administrator",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Administrator",
+   "Online Course (21f) Coordinator": "Not applicable",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Farmington Central High School",
+   "District Name": "Farmington",
+   "Grades Served": "9, 10, 11, 12",
+   "School Type": "Alternative Education",
+   "Counselor FTE Staffing": 1,
+   "Enrollment": "128",
+   "Students per 1.0 FTE Counselor": "128",
+   "Caseload Distribution": "All Students (one counselor)",
+   "State Testing Coordinator": "School Counselor",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "Administrator",
+   "Master Schedule Process Coordinator": "School Counselor",
+   "Honors, Graduation, or Special Ceremony Coordinator": "School Counselor, Administrator",
+   "Online Course (21f) Coordinator": "Not applicable",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Farmington High School",
+   "District Name": "Farmington",
+   "Grades Served": "9, 10, 11, 12",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 5,
+   "Enrollment": "1470",
+   "Students per 1.0 FTE Counselor": "294",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "Other Role: Counseling Techs",
+   "AP Testing Coordinator (high school only)": "Other Role: Counseling Techs",
+   "504 Coordinator": "Administrator",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Administrator",
+   "Online Course (21f) Coordinator": "Other Role: Teacher",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Farmington Online",
+   "District Name": "Farmington",
+   "Grades Served": "K, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12",
+   "School Type": "Online",
+   "Counselor FTE Staffing": 1,
+   "Enrollment": "n/a",
+   "Students per 1.0 FTE Counselor": "n/a",
+   "Caseload Distribution": "All Students (one counselor)",
+   "State Testing Coordinator": "Other Role: Counseling Techs",
+   "AP Testing Coordinator (high school only)": "Other Role: Counseling Techs",
+   "504 Coordinator": "Administrator",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Not applicable",
+   "Online Course (21f) Coordinator": "Other Role: Mentor Teacher",
+   "Additional Specialized Program Coordinator": "Dual Enrollment, Early Middle College, OSTC, Hybrid Schedules"
+ },
+ {
+   "School Name": "North Farmington High School",
+   "District Name": "Farmington",
+   "Grades Served": "9, 10, 11, 12",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 4,
+   "Enrollment": "1157",
+   "Students per 1.0 FTE Counselor": "289",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "Other Role: Counseling Techs",
+   "AP Testing Coordinator (high school only)": "Other Role: Counseling Techs",
+   "504 Coordinator": "Administrator",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Administrator",
+   "Online Course (21f) Coordinator": "School Counselor, Other Role: Online School Personnel",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Power Middle School",
+   "District Name": "Farmington",
+   "Grades Served": "6, 7, 8",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 2,
+   "Enrollment": "621",
+   "Students per 1.0 FTE Counselor": "311",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "Administrator",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "Administrator",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Administrator",
+   "Online Course (21f) Coordinator": "Administrator",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Warner Middle School",
+   "District Name": "Farmington",
+   "Grades Served": "6, 7, 8",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 2,
+   "Enrollment": "559",
+   "Students per 1.0 FTE Counselor": "280",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "Administrator",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "Administrator",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Other Role: Secretary",
+   "Online Course (21f) Coordinator": "School Counselor",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Ferndale High School",
+   "District Name": "Ferndale",
+   "Grades Served": "9, 10, 11, 12",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 2,
+   "Enrollment": "744",
+   "Students per 1.0 FTE Counselor": "372",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "School Counselor",
+   "AP Testing Coordinator (high school only)": "School Counselor",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Administrator",
+   "Online Course (21f) Coordinator": "School Counselor",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Ferndale Middle School",
+   "District Name": "Ferndale",
+   "Grades Served": "6, 7, 8",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 2,
+   "Enrollment": "528",
+   "Students per 1.0 FTE Counselor": "264",
+   "Caseload Distribution": "Grade Level",
+   "State Testing Coordinator": "School Counselor",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "School Counselor",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Not applicable",
+   "Online Course (21f) Coordinator": "Not applicable",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Ferndale Middle School ",
+   "District Name": "Ferndale",
+   "Grades Served": "6, 7, 8",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 2,
+   "Enrollment": "528",
+   "Students per 1.0 FTE Counselor": "264",
+   "Caseload Distribution": "Grade Level (6, 8), Alpha (7)",
+   "State Testing Coordinator": "School Counselor",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "School Counselor",
+   "Honors, Graduation, or Special Ceremony Coordinator": "School Counselor",
+   "Online Course (21f) Coordinator": "Not applicable",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Ferndale Upper Elementary",
+   "District Name": "Ferndale",
+   "Grades Served": "Montessori, 3, 4, 5",
+   "School Type": "Traditional, Montessori",
+   "Counselor FTE Staffing": 1,
+   "Enrollment": "501",
+   "Students per 1.0 FTE Counselor": "501",
+   "Caseload Distribution": "All Students (one counselor)",
+   "State Testing Coordinator": "Not applicable",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "Not applicable",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Not applicable",
+   "Online Course (21f) Coordinator": "Not applicable",
+   "Additional Specialized Program Coordinator": "SEL Coordination"
+ },
+ {
+   "School Name": "Tri-County Educational Center",
+   "District Name": "Ferndale",
+   "Grades Served": "9, 10, 11, 12, Adult Ed",
+   "School Type": "Alternative Education",
+   "Counselor FTE Staffing": 2,
+   "Enrollment": "350",
+   "Students per 1.0 FTE Counselor": "175",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "School Counselor",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "School Counselor",
+   "Honors, Graduation, or Special Ceremony Coordinator": "School Counselor",
+   "Online Course (21f) Coordinator": "School Counselor",
+   "Additional Specialized Program Coordinator": "Adult Ed, Pupil Accounting"
+ },
+ {
+   "School Name": "University High School",
+   "District Name": "Ferndale",
+   "Grades Served": "9, 10, 11, 12",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 1,
+   "Enrollment": "469",
+   "Students per 1.0 FTE Counselor": "469",
+   "Caseload Distribution": "All Students (one counselor)",
+   "State Testing Coordinator": "School Counselor",
+   "AP Testing Coordinator (high school only)": "School Counselor",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Administrator",
+   "Online Course (21f) Coordinator": "Administrator",
+   "Additional Specialized Program Coordinator": "Dual Enrollment, Early Middle College, CASA, OSTC, Career Readiness Coordination"
+ },
+ {
+   "School Name": "Hazel Park Junior High",
+   "District Name": "Hazel Park",
+   "Grades Served": "6, 7, 8",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 1,
+   "Enrollment": "413",
+   "Students per 1.0 FTE Counselor": "413",
+   "Caseload Distribution": "All Students (one counselor)",
+   "State Testing Coordinator": "School Counselor",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Administrator",
+   "Online Course (21f) Coordinator": "Administrator",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Invest Roosevelt",
+   "District Name": "Hazel Park",
+   "Grades Served": "9, 10, 11, 12",
+   "School Type": "Alternative Education",
+   "Counselor FTE Staffing": 1,
+   "Enrollment": "333",
+   "Students per 1.0 FTE Counselor": "333",
+   "Caseload Distribution": "All Students (one counselor)",
+   "State Testing Coordinator": "School Counselor",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "School Counselor, Administrator",
+   "Online Course (21f) Coordinator": "School Counselor, Administrator",
+   "Additional Specialized Program Coordinator": "MTSS, MICIP, College & Career Readiness Coordination"
+ },
+ {
+   "School Name": "Broncho Virtual School",
+   "District Name": "Holly",
+   "Grades Served": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12",
+   "School Type": "Online",
+   "Counselor FTE Staffing": 1,
+   "Enrollment": "n/a",
+   "Students per 1.0 FTE Counselor": "n/a",
+   "Caseload Distribution": "All Students (one counselor)",
+   "State Testing Coordinator": "School Counselor",
+   "AP Testing Coordinator (high school only)": "School Counselor",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "School Counselor",
+   "Honors, Graduation, or Special Ceremony Coordinator": "School Counselor",
+   "Online Course (21f) Coordinator": "Not applicable",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Holly High School",
+   "District Name": "Holly",
+   "Grades Served": "9, 10, 11, 12",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 3,
+   "Enrollment": "1009",
+   "Students per 1.0 FTE Counselor": "336",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "School Counselor",
+   "AP Testing Coordinator (high school only)": "School Counselor",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "School Counselor",
+   "Honors, Graduation, or Special Ceremony Coordinator": "School Counselor",
+   "Online Course (21f) Coordinator": "School Counselor",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Holly MIddle School",
+   "District Name": "Holly",
+   "Grades Served": "6, 7, 8",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 2,
+   "Enrollment": "743",
+   "Students per 1.0 FTE Counselor": "372",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "Administrator",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "School Counselor",
+   "Honors, Graduation, or Special Ceremony Coordinator": "School Counselor",
+   "Online Course (21f) Coordinator": "Not applicable",
+   "Additional Specialized Program Coordinator": "College & Career Week"
+ },
+ {
+   "School Name": "Lakeland High School",
+   "District Name": "Huron Valley",
+   "Grades Served": "9, 10, 11, 12",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 3,
+   "Enrollment": "1012",
+   "Students per 1.0 FTE Counselor": "337",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "Administrator",
+   "AP Testing Coordinator (high school only)": "School Counselor",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "School Counselor",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Other Role: Secretary",
+   "Online Course (21f) Coordinator": "Other Role: Para & Teacher",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Milford High School",
+   "District Name": "Huron Valley",
+   "Grades Served": "9, 10, 11, 12",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 3,
+   "Enrollment": "1208",
+   "Students per 1.0 FTE Counselor": "403",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "Administrator",
+   "AP Testing Coordinator (high school only)": "Administrator",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Other Role: Secretary",
+   "Online Course (21f) Coordinator": "Other Role: Para",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Muir Middle School",
+   "District Name": "Huron Valley",
+   "Grades Served": "6, 7, 8",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 2,
+   "Enrollment": "656",
+   "Students per 1.0 FTE Counselor": "328",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "Other Role: Media Tech",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "School Counselor, Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Other Role: Secretary",
+   "Online Course (21f) Coordinator": "School Counselor",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "White Lake Middle School ",
+   "District Name": "Huron Valley",
+   "Grades Served": "6, 7, 8",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 2,
+   "Enrollment": "525",
+   "Students per 1.0 FTE Counselor": "263",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "Administrator",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Administrator",
+   "Online Course (21f) Coordinator": "Not applicable",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Lake Orion High School",
+   "District Name": "Lake Orion",
+   "Grades Served": "9, 10, 11, 12",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 6,
+   "Enrollment": "2035",
+   "Students per 1.0 FTE Counselor": "339",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "School Counselor",
+   "AP Testing Coordinator (high school only)": "School Counselor",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "School Counselor",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Administrator",
+   "Online Course (21f) Coordinator": "Other Role: Teacher",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Scripps Middle School",
+   "District Name": "Lake Orion",
+   "Grades Served": "6, 7, 8",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 1,
+   "Enrollment": "446",
+   "Students per 1.0 FTE Counselor": "446",
+   "Caseload Distribution": "All Students (one counselor)",
+   "State Testing Coordinator": "Administrator",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "School Counselor",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Administrator",
+   "Online Course (21f) Coordinator": "School Counselor",
+   "Additional Specialized Program Coordinator": "Holiday Assistance"
+ },
+ {
+   "School Name": "Waldon Middle School",
+   "District Name": "Lake Orion",
+   "Grades Served": "6, 7, 8",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 1,
+   "Enrollment": "514",
+   "Students per 1.0 FTE Counselor": "514",
+   "Caseload Distribution": "All Students (one counselor)",
+   "State Testing Coordinator": "Administrator",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "School Counselor",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Not applicable",
+   "Online Course (21f) Coordinator": "Not applicable",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Lamphere High School",
+   "District Name": "Lamphere",
+   "Grades Served": "9, 10, 11, 12",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 2,
+   "Enrollment": "753",
+   "Students per 1.0 FTE Counselor": "377",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "Other Role: Student Success Liaison",
+   "AP Testing Coordinator (high school only)": "School Counselor",
+   "504 Coordinator": "Other Role: Student Success Liaison",
+   "Master Schedule Process Coordinator": "School Counselor",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Other Role: NHS Sponsor",
+   "Online Course (21f) Coordinator": "School Counselor",
+   "Additional Specialized Program Coordinator": "Credit Recovery, OSTC, CASA, Alternative Education"
+ },
+ {
+   "School Name": "Page Middle School",
+   "District Name": "Lamphere",
+   "Grades Served": "6, 7, 8",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 2,
+   "Enrollment": "538",
+   "Students per 1.0 FTE Counselor": "269",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "Other Role: Testing & Curriculum Coordinator",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "Other Role: Teacher",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Other Role: Secretary",
+   "Online Course (21f) Coordinator": "Other Role: Online Coordinator & Teacher",
+   "Additional Specialized Program Coordinator": "Counseling Groups, Schoolwide Assemblies"
+ },
+ {
+   "School Name": "Madison High School",
+   "District Name": "Madison",
+   "Grades Served": "9, 10, 11, 12",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 0.5,
+   "Enrollment": "255",
+   "Students per 1.0 FTE Counselor": "510",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "Administrator",
+   "AP Testing Coordinator (high school only)": "Other Role: CASA ",
+   "504 Coordinator": "Other Role: Social Worker",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Administrator",
+   "Online Course (21f) Coordinator": "Administrator",
+   "Additional Specialized Program Coordinator": "Decision Day"
+ },
+ {
+   "School Name": "Novi High School",
+   "District Name": "Novi",
+   "Grades Served": "9, 10, 11, 12",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 6,
+   "Enrollment": "2141",
+   "Students per 1.0 FTE Counselor": "357",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "Administrator",
+   "AP Testing Coordinator (high school only)": "Other Role: Teacher",
+   "504 Coordinator": "Other Role: 504 Coordinator",
+   "Master Schedule Process Coordinator": "School Counselor, Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "School Counselor",
+   "Online Course (21f) Coordinator": "School Counselor",
+   "Additional Specialized Program Coordinator": "Early Middle College, Test Out, Seal of Biliteracy, IB Program"
+ },
+ {
+   "School Name": "Novi Meadows Elementary",
+   "District Name": "Novi",
+   "Grades Served": "5, 6",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 2,
+   "Enrollment": "1048",
+   "Students per 1.0 FTE Counselor": "524",
+   "Caseload Distribution": "Grade Level",
+   "State Testing Coordinator": "Other Role: Administrative Assistant",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Not applicable",
+   "Online Course (21f) Coordinator": "Not applicable",
+   "Additional Specialized Program Coordinator": "Red Ribbon Week, Children's Mental Health Week, Newcomers Group"
+ },
+ {
+   "School Name": "Novi Middle School",
+   "District Name": "Novi",
+   "Grades Served": "7, 8",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 2,
+   "Enrollment": "1086",
+   "Students per 1.0 FTE Counselor": "543",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "Administrator",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "School Counselor, Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Not applicable",
+   "Online Course (21f) Coordinator": "Not applicable",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Oak Park Preparatory Academy",
+   "District Name": "Oak Park",
+   "Grades Served": "6, 7, 8",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 3,
+   "Enrollment": "707",
+   "Students per 1.0 FTE Counselor": "236",
+   "Caseload Distribution": "Grade Level",
+   "State Testing Coordinator": "Other Role: Testing Coordinator",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "Other Role: General Ed Social Worker",
+   "Master Schedule Process Coordinator": "School Counselor",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Administrator",
+   "Online Course (21f) Coordinator": "Not applicable",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "OSTC-NW",
+   "District Name": "Oakland Schools",
+   "Grades Served": "11, 12",
+   "School Type": "CTE Program",
+   "Counselor FTE Staffing": 1,
+   "Enrollment": "n/a",
+   "Students per 1.0 FTE Counselor": "n/a",
+   "Caseload Distribution": "All Students (one counselor)",
+   "State Testing Coordinator": "Not applicable",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "Other Role: Special Populations Consultant ",
+   "Master Schedule Process Coordinator": "School Counselor",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Not applicable",
+   "Online Course (21f) Coordinator": "Not applicable",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "OSTC-SW",
+   "District Name": "Oakland Schools",
+   "Grades Served": "11, 12",
+   "School Type": "CTE Program",
+   "Counselor FTE Staffing": 1,
+   "Enrollment": "n/a",
+   "Students per 1.0 FTE Counselor": "n/a",
+   "Caseload Distribution": "All Students (one counselor)",
+   "State Testing Coordinator": "Not applicable",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "Not applicable",
+   "Master Schedule Process Coordinator": "School Counselor",
+   "Honors, Graduation, or Special Ceremony Coordinator": "School Counselor",
+   "Online Course (21f) Coordinator": "Not applicable",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Virtual Learning Academy Consortium",
+   "District Name": "Oakland Schools",
+   "Grades Served": "K, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12",
+   "School Type": "Online",
+   "Counselor FTE Staffing": 2,
+   "Enrollment": "298",
+   "Students per 1.0 FTE Counselor": "149",
+   "Caseload Distribution": "By School District",
+   "State Testing Coordinator": "Other Role: Testing Coordinator",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "Other Role: Special Populations Consultant",
+   "Master Schedule Process Coordinator": "Not applicable",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Not applicable",
+   "Online Course (21f) Coordinator": "Administrator",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Oxford Virtual Academy",
+   "District Name": "Oxford",
+   "Grades Served": "K, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12",
+   "School Type": "Online",
+   "Counselor FTE Staffing": 3.6,
+   "Enrollment": "1249",
+   "Students per 1.0 FTE Counselor": "347",
+   "Caseload Distribution": "Grade Level (K-5, 6-8), Alpha (9-12)",
+   "State Testing Coordinator": "Other Role: Testing Coordinator",
+   "AP Testing Coordinator (high school only)": "Other Role: Testing Coordinator",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "Not applicable",
+   "Honors, Graduation, or Special Ceremony Coordinator": "School Counselor",
+   "Online Course (21f) Coordinator": "Not applicable",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Oxford Bridges High School ",
+   "District Name": "Oxford",
+   "Grades Served": "10, 11, 12",
+   "School Type": "Alternative Education",
+   "Counselor FTE Staffing": 0.3,
+   "Enrollment": "53",
+   "Students per 1.0 FTE Counselor": "177",
+   "Caseload Distribution": "All Students (one counselor)",
+   "State Testing Coordinator": "School Counselor",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "School Counselor",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Administrator",
+   "Online Course (21f) Coordinator": "Other Role: Teacher",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Oxford High School",
+   "District Name": "Oxford",
+   "Grades Served": "9, 10, 11, 12",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 6,
+   "Enrollment": "1568",
+   "Students per 1.0 FTE Counselor": "261",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "Other Role: Testing Coordinator",
+   "AP Testing Coordinator (high school only)": "Other Role: Testing Coordinator",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "School Counselor, Administrator, Other Role: Administrative Assistant",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Administrator",
+   "Online Course (21f) Coordinator": "School Counselor, Other Role: Administrative Assistant",
+   "Additional Specialized Program Coordinator": "Threat Assessment, PBIS"
+ },
+ {
+   "School Name": "Oxford Middle School",
+   "District Name": "Oxford",
+   "Grades Served": "6, 7, 8",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 4,
+   "Enrollment": "938",
+   "Students per 1.0 FTE Counselor": "235",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "Not applicable",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Not applicable",
+   "Online Course (21f) Coordinator": "School Counselor",
+   "Additional Specialized Program Coordinator": "Threat Assessment, EDPs, "
+ },
+ {
+   "School Name": "International Technology Academy",
+   "District Name": "Pontiac",
+   "Grades Served": "PK, K, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 2,
+   "Enrollment": "n/a",
+   "Students per 1.0 FTE Counselor": "n/a",
+   "Caseload Distribution": "Grade Level",
+   "State Testing Coordinator": "School Counselor",
+   "AP Testing Coordinator (high school only)": "School Counselor",
+   "504 Coordinator": "Other Role: Behavior Intervention Specialist",
+   "Master Schedule Process Coordinator": "School Counselor, Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Administrator",
+   "Online Course (21f) Coordinator": "Not applicable",
+   "Additional Specialized Program Coordinator": "Early Middle College"
+ },
+ {
+   "School Name": "Pontiac High School ",
+   "District Name": "Pontiac",
+   "Grades Served": "9, 10, 11, 12",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 4,
+   "Enrollment": "992",
+   "Students per 1.0 FTE Counselor": "248",
+   "Caseload Distribution": "Grade Level",
+   "State Testing Coordinator": "School Counselor",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "Other Role: Social Worker ",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Other Role: Administrative Assistant",
+   "Online Course (21f) Coordinator": "Administrator",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Pontiac Middle School",
+   "District Name": "Pontiac",
+   "Grades Served": "6, 7, 8",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 2,
+   "Enrollment": "790",
+   "Students per 1.0 FTE Counselor": "395",
+   "Caseload Distribution": "Grade Level",
+   "State Testing Coordinator": "Administrator",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "Other Role: Special Ed Department",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "School Counselor, Administrator",
+   "Online Course (21f) Coordinator": "Not applicable",
+   "Additional Specialized Program Coordinator": "Career Day, EDPs"
+ },
+ {
+   "School Name": "Michigan Virtual Charter Academy",
+   "District Name": "PSA",
+   "Grades Served": "9, 10, 11, 12",
+   "School Type": "Online",
+   "Counselor FTE Staffing": 6,
+   "Enrollment": "3202",
+   "Students per 1.0 FTE Counselor": "534",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "Other Role: Testing Coordinator",
+   "AP Testing Coordinator (high school only)": "Other Role: Career & College Coordinator",
+   "504 Coordinator": "Other Role: 504 Coordinator",
+   "Master Schedule Process Coordinator": "Other Role: Lead Teachers",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Administrator",
+   "Online Course (21f) Coordinator": "Not applicable",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Pontiac Academy for Excellence",
+   "District Name": "PSA",
+   "Grades Served": "9, 10, 11, 12",
+   "School Type": "Public School Academy",
+   "Counselor FTE Staffing": 1,
+   "Enrollment": "553",
+   "Students per 1.0 FTE Counselor": "553",
+   "Caseload Distribution": "All Students (one counselor)",
+   "State Testing Coordinator": "Other Role: Test Coordinator",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "Other Role: Special Ed Director",
+   "Master Schedule Process Coordinator": "Other Role: College & Career Coordinator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Other Role: College & Career Coordinator",
+   "Online Course (21f) Coordinator": "Other Role: Teacher",
+   "Additional Specialized Program Coordinator": "Early Middle College, Career Readiness Coordination, Winning Futures Program, Upward Bound"
+ },
+ {
+   "School Name": "Hart Middle School",
+   "District Name": "Rochester",
+   "Grades Served": "6, 7, 8",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 4,
+   "Enrollment": "999",
+   "Students per 1.0 FTE Counselor": "250",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "Other Role: Learning Consultant",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "Other Role: Teacher",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Administrator",
+   "Online Course (21f) Coordinator": "School Counselor",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Reuther Middle School",
+   "District Name": "Rochester",
+   "Grades Served": "6, 7, 8",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 3,
+   "Enrollment": "706",
+   "Students per 1.0 FTE Counselor": "235",
+   "Caseload Distribution": "Grade Level",
+   "State Testing Coordinator": "Other Role: Learning Consultant",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "Other Role: Learning Consultant",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Administrator",
+   "Online Course (21f) Coordinator": "School Counselor",
+   "Additional Specialized Program Coordinator": "Transition Activities, Conflict Resolution, EDPs"
+ },
+ {
+   "School Name": "Rochester ACE ",
+   "District Name": "Rochester",
+   "Grades Served": "11, 12",
+   "School Type": "Alternative Education",
+   "Counselor FTE Staffing": 1,
+   "Enrollment": "n/a",
+   "Students per 1.0 FTE Counselor": "n/a",
+   "Caseload Distribution": "All Students (one counselor)",
+   "State Testing Coordinator": "School Counselor",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Not applicable",
+   "Online Course (21f) Coordinator": "Administrator",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Rochester Adams High School",
+   "District Name": "Rochester",
+   "Grades Served": "9, 10, 11, 12",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 6,
+   "Enrollment": "1521",
+   "Students per 1.0 FTE Counselor": "254",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "School Counselor",
+   "AP Testing Coordinator (high school only)": "School Counselor",
+   "504 Coordinator": "Other Role: Learning Consultant",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "School Counselor, Administrator",
+   "Online Course (21f) Coordinator": "Other Role: District Administrator",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Rochester High School",
+   "District Name": "Rochester",
+   "Grades Served": "9, 10, 11, 12",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 6,
+   "Enrollment": "1682",
+   "Students per 1.0 FTE Counselor": "280",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "School Counselor",
+   "AP Testing Coordinator (high school only)": "School Counselor",
+   "504 Coordinator": "Other Role: Learning Consultant",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Other Role: Registrar",
+   "Online Course (21f) Coordinator": "Other Role: District Administrator",
+   "Additional Specialized Program Coordinator": "EDPs"
+ },
+ {
+   "School Name": "Stoney Creek High School",
+   "District Name": "Rochester",
+   "Grades Served": "9, 10, 11, 12",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 6,
+   "Enrollment": "1478",
+   "Students per 1.0 FTE Counselor": "246",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "School Counselor",
+   "AP Testing Coordinator (high school only)": "School Counselor",
+   "504 Coordinator": "Other Role: Learning Consultant",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Other Role: Administrative Assistant",
+   "Online Course (21f) Coordinator": "Other Role: District Adminstrator",
+   "Additional Specialized Program Coordinator": "OSTC, Holiday Assistance"
+ },
+ {
+   "School Name": "Van Hoosen Middle School",
+   "District Name": "Rochester",
+   "Grades Served": "6, 7, 8",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 3,
+   "Enrollment": "906",
+   "Students per 1.0 FTE Counselor": "302",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "Other Role: Learning Consultant",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "Other Role: Learning Consultant",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Administrator",
+   "Online Course (21f) Coordinator": "School Counselor",
+   "Additional Specialized Program Coordinator": "EDPs"
+ },
+ {
+   "School Name": "West Middle School",
+   "District Name": "Rochester",
+   "Grades Served": "6, 7, 8",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 3,
+   "Enrollment": "784",
+   "Students per 1.0 FTE Counselor": "261",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "Other Role: Learning Consultant",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "Other Role: Learning Consultant",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Administrator",
+   "Online Course (21f) Coordinator": "Not applicable",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Churchill Community High School",
+   "District Name": "Royal Oak",
+   "Grades Served": "10, 11, 12, 13",
+   "School Type": "Alternative Education",
+   "Counselor FTE Staffing": 1,
+   "Enrollment": "90",
+   "Students per 1.0 FTE Counselor": "90",
+   "Caseload Distribution": "All Students (one counselor)",
+   "State Testing Coordinator": "School Counselor",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Administrator",
+   "Online Course (21f) Coordinator": "School Counselor",
+   "Additional Specialized Program Coordinator": "Dual Enrollment, Early Middle College, OSTC"
+ },
+ {
+   "School Name": "Royal Oak High School",
+   "District Name": "Royal Oak",
+   "Grades Served": "9, 10, 11, 12",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 4,
+   "Enrollment": "1293",
+   "Students per 1.0 FTE Counselor": "323",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "Other Role: Career & Testing Coordinator",
+   "AP Testing Coordinator (high school only)": "Other Role: Career & Testing Coordinator",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "School Counselor",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Other Role: Senior Class Advisor",
+   "Online Course (21f) Coordinator": "School Counselor",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Royal Oak Middle School",
+   "District Name": "Royal Oak",
+   "Grades Served": "6, 7, 8",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 3,
+   "Enrollment": "1058",
+   "Students per 1.0 FTE Counselor": "353",
+   "Caseload Distribution": "Grade Level",
+   "State Testing Coordinator": "Administrator",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Not applicable",
+   "Online Course (21f) Coordinator": "Not applicable",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Centennial Middle School",
+   "District Name": "South Lyon",
+   "Grades Served": "6, 7, 8",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 2,
+   "Enrollment": "898",
+   "Students per 1.0 FTE Counselor": "449",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "School Counselor",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "Other Role: 504 Coordinator",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Administrator",
+   "Online Course (21f) Coordinator": "School Counselor",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Millennium Middle School",
+   "District Name": "South Lyon",
+   "Grades Served": "6, 7, 8",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 3,
+   "Enrollment": "1049",
+   "Students per 1.0 FTE Counselor": "350",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "Other Role: Media Specialist",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "Other Role: 504 Coordinator",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Administrator",
+   "Online Course (21f) Coordinator": "School Counselor",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "South Lyon East High School ",
+   "District Name": "South Lyon",
+   "Grades Served": "9, 10, 11, 12",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 3,
+   "Enrollment": "1174",
+   "Students per 1.0 FTE Counselor": "391",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "Administrator",
+   "AP Testing Coordinator (high school only)": "School Counselor",
+   "504 Coordinator": "Other Role: 504 Coordinator",
+   "Master Schedule Process Coordinator": "School Counselor, Administrator, Other Role: Data Processor",
+   "Honors, Graduation, or Special Ceremony Coordinator": "School Counselor",
+   "Online Course (21f) Coordinator": "School Counselor",
+   "Additional Specialized Program Coordinator": "Dual Enrollment, Early Middle College, Virtual Programs, Credit Recovery, Graduation Alliance, Livingston CTE"
+ },
+ {
+   "School Name": "South Lyon High School",
+   "District Name": "South Lyon",
+   "Grades Served": "9, 10, 11, 12",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 3,
+   "Enrollment": "1254",
+   "Students per 1.0 FTE Counselor": "418",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "Administrator",
+   "AP Testing Coordinator (high school only)": "School Counselor",
+   "504 Coordinator": "Other Role: 504 Coordinator",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "School Counselor",
+   "Online Course (21f) Coordinator": "School Counselor",
+   "Additional Specialized Program Coordinator": "Early Middle College, OSTC"
+ },
+ {
+   "School Name": "Southfield High School for the Arts & Technology",
+   "District Name": "Southfield",
+   "Grades Served": "9, 10, 11, 12",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 4,
+   "Enrollment": "1049",
+   "Students per 1.0 FTE Counselor": "262",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "Testing coordinator",
+   "AP Testing Coordinator (high school only)": "Testing coordinator",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "School Counselor",
+   "Online Course (21f) Coordinator": "School Counselor",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Boulan Park Middle School",
+   "District Name": "Troy",
+   "Grades Served": "6, 7, 8",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 2,
+   "Enrollment": "839",
+   "Students per 1.0 FTE Counselor": "420",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "Administrator",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "School Counselor, Administrator",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Not applicable",
+   "Online Course (21f) Coordinator": "Administrator",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "International Academy - East",
+   "District Name": "Troy",
+   "Grades Served": "9, 10, 11, 12",
+   "School Type": "IB Diploma Program",
+   "Counselor FTE Staffing": 2,
+   "Enrollment": "n/a",
+   "Students per 1.0 FTE Counselor": "n/a",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "Counseling secretary",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "Administrator",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "School Counselor",
+   "Online Course (21f) Coordinator": "Not applicable",
+   "Additional Specialized Program Coordinator": "Financial Aid Night, Freshman Orientation"
+ },
+ {
+   "School Name": "Troy Athens High School",
+   "District Name": "Troy",
+   "Grades Served": "9, 10, 11, 12",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 6,
+   "Enrollment": "1468",
+   "Students per 1.0 FTE Counselor": "245",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "Administrator",
+   "AP Testing Coordinator (high school only)": "School Counselor",
+   "504 Coordinator": "Other Role: Teacher",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Other Role: Secretary",
+   "Online Course (21f) Coordinator": "School Counselor",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Clifford Smart Middle School",
+   "District Name": "Walled Lake",
+   "Grades Served": "6, 7, 8",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 3,
+   "Enrollment": "888",
+   "Students per 1.0 FTE Counselor": "296",
+   "Caseload Distribution": "Grade Level",
+   "State Testing Coordinator": "School Counselor",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "School Counselor, Administrator",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Administrator",
+   "Online Course (21f) Coordinator": "Not applicable",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Sarah Banks Middle School",
+   "District Name": "Walled Lake",
+   "Grades Served": "6, 7, 8",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 3,
+   "Enrollment": "597",
+   "Students per 1.0 FTE Counselor": "199",
+   "Caseload Distribution": "Grade Level",
+   "State Testing Coordinator": "School Counselor",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "Administrator",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "School Counselor",
+   "Online Course (21f) Coordinator": "Not applicable",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Walled Lake Central High School",
+   "District Name": "Walled Lake",
+   "Grades Served": "8, 9, 10, 11, 12",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 4,
+   "Enrollment": "1186",
+   "Students per 1.0 FTE Counselor": "297",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "School Counselor",
+   "AP Testing Coordinator (high school only)": "School Counselor",
+   "504 Coordinator": "School Counselor, Administrator",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Administrator",
+   "Online Course (21f) Coordinator": "Administrator",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Walled Lake Northern High School",
+   "District Name": "Walled Lake",
+   "Grades Served": "9, 10, 11, 12",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 4,
+   "Enrollment": "1383",
+   "Students per 1.0 FTE Counselor": "346",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "Administrator",
+   "AP Testing Coordinator (high school only)": "School Counselor",
+   "504 Coordinator": "Administrator",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Administrator",
+   "Online Course (21f) Coordinator": "Administrator",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Walled Lake Western High School",
+   "District Name": "Walled Lake",
+   "Grades Served": "9, 10, 11, 12",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 4,
+   "Enrollment": "1072",
+   "Students per 1.0 FTE Counselor": "268",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "Administrator",
+   "AP Testing Coordinator (high school only)": "School Counselor",
+   "504 Coordinator": "Administrator",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Administrator",
+   "Online Course (21f) Coordinator": "School Counselor",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Walnut Creek Middle School",
+   "District Name": "Walled Lake",
+   "Grades Served": "6, 7, 8",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 3,
+   "Enrollment": "641",
+   "Students per 1.0 FTE Counselor": "214",
+   "Caseload Distribution": "Grade Level",
+   "State Testing Coordinator": "Not applicable",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Not applicable",
+   "Online Course (21f) Coordinator": "Not applicable",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Durant High School",
+   "District Name": "Waterford",
+   "Grades Served": "10, 11, 12",
+   "School Type": "Alternative Education",
+   "Counselor FTE Staffing": 1,
+   "Enrollment": "120",
+   "Students per 1.0 FTE Counselor": "120",
+   "Caseload Distribution": "All Students (one counselor)",
+   "State Testing Coordinator": "Administrator",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "School Counselor",
+   "Online Course (21f) Coordinator": "Not applicable",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Kettering High School",
+   "District Name": "Waterford",
+   "Grades Served": "9, 10, 11, 12",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 3,
+   "Enrollment": "909",
+   "Students per 1.0 FTE Counselor": "303",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "School Counselor",
+   "AP Testing Coordinator (high school only)": "School Counselor",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "School Counselor",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Administrator",
+   "Online Course (21f) Coordinator": "School Counselor",
+   "Additional Specialized Program Coordinator": "NCAA, NAIA, Credit Recovery, Oakland80 Coordination, 5oD"
+ },
+ {
+   "School Name": "Mason Middle School",
+   "District Name": "Waterford",
+   "Grades Served": "6, 7, 8",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 2.5,
+   "Enrollment": "731",
+   "Students per 1.0 FTE Counselor": "292",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "School Counselor, Administrator",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "Other Role: Unknown",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Not applicable",
+   "Online Course (21f) Coordinator": "Not applicable",
+   "Additional Specialized Program Coordinator": "MTSS, PBIS, WEB"
+ },
+ {
+   "School Name": "Mott High School",
+   "District Name": "Waterford",
+   "Grades Served": "9, 10, 11, 12",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 3,
+   "Enrollment": "963",
+   "Students per 1.0 FTE Counselor": "321",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "School Counselor, Administrator",
+   "AP Testing Coordinator (high school only)": "School Counselor",
+   "504 Coordinator": "Administrator",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Other Role: Secretary",
+   "Online Course (21f) Coordinator": "Other Role: District Administrator",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ },
+ {
+   "School Name": "Pierce Middle School",
+   "District Name": "Waterford",
+   "Grades Served": "6, 7, 8",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 2.5,
+   "Enrollment": "733",
+   "Students per 1.0 FTE Counselor": "293",
+   "Caseload Distribution": "Alpha",
+   "State Testing Coordinator": "School Counselor",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Other Role: Office Manager",
+   "Online Course (21f) Coordinator": "Not applicable",
+   "Additional Specialized Program Coordinator": "Career Focused Education, MTSS, Attendance"
+ },
+ {
+   "School Name": "Oakland Early College",
+   "District Name": "West Bloomfield",
+   "Grades Served": "9, 10, 11, 12, 13",
+   "School Type": "Early College Program",
+   "Counselor FTE Staffing": 1,
+   "Enrollment": "179",
+   "Students per 1.0 FTE Counselor": "179",
+   "Caseload Distribution": "All Students (one counselor)",
+   "State Testing Coordinator": "Teacher",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "School Counselor",
+   "Master Schedule Process Coordinator": "School Counselor",
+   "Honors, Graduation, or Special Ceremony Coordinator": "School Counselor",
+   "Online Course (21f) Coordinator": "Administrator",
+   "Additional Specialized Program Coordinator": "Dual Enrollment"
+ },
+ {
+   "School Name": "West Bloomfield Middle School",
+   "District Name": "West Bloomfield",
+   "Grades Served": "6, 7, 8",
+   "School Type": "Traditional",
+   "Counselor FTE Staffing": 3,
+   "Enrollment": "1008",
+   "Students per 1.0 FTE Counselor": "336",
+   "Caseload Distribution": "Grade Level",
+   "State Testing Coordinator": "Other Role: Social Worker & Dean of Students",
+   "AP Testing Coordinator (high school only)": "Not applicable",
+   "504 Coordinator": "School Counselor, Administrator",
+   "Master Schedule Process Coordinator": "Administrator",
+   "Honors, Graduation, or Special Ceremony Coordinator": "Administrator, Other Role: Administrative Assistant",
+   "Online Course (21f) Coordinator": "School Counselor",
+   "Additional Specialized Program Coordinator": "Not applicable"
+ }
+];
+
+    // -------------------------------------------------------------------------
+    // END OF DATA
+    // -------------------------------------------------------------------------
+    
+    // DOM Elements
+    const districtSelect = document.getElementById('district-select');
+    const schoolSelect = document.getElementById('school-select');
+    const profileDisplay = document.getElementById('profile-display');
+    const emptyState = document.getElementById('empty-state');
+
+    // Display Elements
+    const dispSchool = document.getElementById('disp-school');
+    const dispDistrict = document.getElementById('disp-district');
+    const dispGrades = document.getElementById('disp-grades');
+    const dispType = document.getElementById('disp-type');
+    const dispCaseload = document.getElementById('disp-caseload');
+    const dispEnrollment = document.getElementById('disp-enrollment');
+    const dispFte = document.getElementById('disp-fte');
+    const dispRatio = document.getElementById('disp-ratio');
+    const coordList = document.getElementById('coord-list');
+
+    // Map internal keys to Display Labels
+    const coordLabels = {
+        "State Testing Coordinator": "State Testing",
+        "AP Testing Coordinator (high school only)": "AP Testing",
+        "504 Coordinator": "504 Plans",
+        "Master Schedule Process Coordinator": "Master Schedule",
+        "Honors, Graduation, or Special Ceremony Coordinator": "Ceremony",
+        "Online Course (21f) Coordinator": "Online Course",
+        "Additional Specialized Program Coordinator": "Specialized Programs"
+    };
+
+    function init() {
+        if (!schoolData || schoolData.length === 0) {
+            console.warn("No school data found. Please paste JSON into the schoolData array.");
+            return;
+        }
+
+        // Populate Districts (Unique & Sorted)
+        const districts = [...new Set(schoolData.map(d => d["District Name"]))].sort();
+        districts.forEach(d => {
+            const opt = document.createElement('option');
+            opt.value = d;
+            opt.textContent = d;
+            districtSelect.appendChild(opt);
+        });
+    }
+
+    // Helper: Determine Badge Class
+    function getBadgeClass(role) {
+        if (!role) return 'badge-na';
+        role = role.toLowerCase().trim();
+        
+        if (role.includes('school counselor')) {
+            return 'badge-counselor';
+        } 
+        if (role.includes('administrator')) {
+            return 'badge-admin';
+        } 
+        if (role.includes('other role')) {
+            return 'badge-purple';
+        }
+        
+        return 'badge-na'; // Default for "Not applicable" or general text
+    }
+
+    function renderProfile(record) {
+        emptyState.style.display = 'none';
+        profileDisplay.style.display = 'block';
+
+        // Direct Data Mapping
+        dispSchool.textContent = record["School Name"];
+        dispDistrict.textContent = record["District Name"];
+        dispGrades.textContent = record["Grades Served"];
+        dispType.textContent = record["School Type"];
+        dispCaseload.textContent = record["Caseload Distribution"];
+        
+        dispFte.textContent = record["Counselor FTE Staffing"];
+        dispEnrollment.textContent = record["Enrollment"];
+        dispRatio.textContent = record["Students per 1.0 FTE Counselor"];
+
+        // Render Coordination List
+        coordList.innerHTML = '';
+        
+        for (const [jsonKey, displayLabel] of Object.entries(coordLabels)) {
+            const rawValue = record[jsonKey];
+            
+            const item = document.createElement('div');
+            item.className = 'coord-item';
+            
+            const nameDiv = document.createElement('div');
+            nameDiv.className = 'coord-name';
+            nameDiv.textContent = displayLabel;
+            
+            const badgeContainer = document.createElement('div');
+            badgeContainer.className = 'badge-container';
+
+            // Split by comma
+            // If value is N/A, 'nan', or empty, show 'N/A'
+            let roles = [];
+            if (!rawValue || rawValue === 'N/A' || String(rawValue).toLowerCase() === 'nan') {
+                roles = ['N/A'];
+            } else {
+                roles = String(rawValue).split(',');
+            }
+
+            roles.forEach(r => {
+                r = r.trim();
+                if (r) {
+                    const badge = document.createElement('div');
+                    badge.className = `role-badge ${getBadgeClass(r)}`;
+                    badge.textContent = r;
+                    badgeContainer.appendChild(badge);
+                }
+            });
+
+            item.appendChild(nameDiv);
+            item.appendChild(badgeContainer);
+            coordList.appendChild(item);
+        }
+    }
+
+    // Event: District Change
+    districtSelect.addEventListener('change', () => {
+        const selectedDistrict = districtSelect.value;
+        
+        // Reset School Dropdown
+        schoolSelect.innerHTML = '<option value="">-- Select a School --</option>';
+        schoolSelect.disabled = true;
+        
+        if (selectedDistrict) {
+            const schools = schoolData
+                .filter(d => d["District Name"] === selectedDistrict)
+                .sort((a,b) => a["School Name"].localeCompare(b["School Name"]));
+            
+            schools.forEach(s => {
+                const opt = document.createElement('option');
+                opt.value = s["School Name"];
+                opt.textContent = s["School Name"];
+                schoolSelect.appendChild(opt);
+            });
+            schoolSelect.disabled = false;
+        }
+    });
+
+    // Event: School Change
+    schoolSelect.addEventListener('change', () => {
+        const selectedSchool = schoolSelect.value;
+        const selectedDistrict = districtSelect.value;
+        
+        const record = schoolData.find(d => 
+            d["School Name"] === selectedSchool && 
+            d["District Name"] === selectedDistrict
+        );
+        
+        if (record) renderProfile(record);
+    });
+
+    init();
+</script>
+
+</body>
+</html>
