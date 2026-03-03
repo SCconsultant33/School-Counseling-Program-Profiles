@@ -12,13 +12,13 @@
             --bg: #f8f9fa;
             --card-bg: #ffffff;
             --text: #333;
-            --text-light: #666;
+            --text-light: #595959;
             --border: #e0e0e0;
             --shadow: 0 4px 6px rgba(0,0,0,0.05);
             
             /* Badge Colors */
-            --badge-counselor-bg: #e8f5e9;
-            --badge-counselor-text: #2e7d32;
+            --badge-counselor-bg: #e4f3e6;
+            --badge-counselor-text: #1b5e20;
             
             --badge-admin-bg: #e3f2fd;
             --badge-admin-text: #1565c0;
@@ -38,6 +38,22 @@
             margin: 0;
             padding: 0;
             line-height: 1.5;
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 12px;
+            background: #000;
+            color: #fff;
+            padding: 8px 12px;
+            z-index: 1000;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+
+        .skip-link:focus {
+            top: 12px;
         }
 
         .container {
@@ -99,9 +115,10 @@
         }
 
         select:focus {
-            outline: none;
+            outline: 2px solid var(--secondary);
+            outline-offset: 2px;
             border-color: var(--secondary);
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
         }
         
         select:disabled {
@@ -160,7 +177,7 @@
             margin-bottom: 30px;
         }
         
-        .info-item label { font-size: 0.8rem; color: var(--text-light); margin-bottom: 4px; }
+        .info-item .info-label { font-size: 0.8rem; color: var(--text-light); margin-bottom: 4px; font-weight: 600; }
         .info-item div { font-weight: 600; font-size: 1.1rem; color: var(--primary); }
 
         /* Staffing Section */
@@ -186,6 +203,9 @@
 
         /* Coordination List */
         .coord-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
             display: grid;
             gap: 15px;
         }
@@ -239,7 +259,7 @@
         .empty-state {
             text-align: center;
             padding: 60px 20px;
-            color: #999;
+            color: #595959;
             background: white;
             border-radius: 12px;
             box-shadow: var(--shadow);
@@ -273,12 +293,15 @@
     </style>
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
 
 <div class="container">
     <header>
-        <h1><i class="fas fa-school"></i> School Counseling Program Profiles</h1>
+        <h1><i class="fas fa-school" aria-hidden="true"></i> School Counseling Program Profiles</h1>
         <p>Oakland County • 2025-2026</p>
     </header>
+
+    <main id="main-content" tabindex="-1">
 
     <div class="controls-container">
         <div class="control-group">
@@ -296,8 +319,8 @@
         </div>
     </div>
 
-    <div id="empty-state" class="empty-state">
-        <div class="empty-icon"><i class="fas fa-clipboard-list"></i></div>
+    <div id="empty-state" class="empty-state" role="status" aria-live="polite">
+        <div class="empty-icon"><i class="fas fa-clipboard-list" aria-hidden="true"></i></div>
         <h3>Select a school to view its profile</h3>
         <p>Use the dropdowns above to select a District and School.</p>
     </div>
@@ -310,23 +333,23 @@
         
         <div class="card-body">
             
-            <div class="section-title">Overview</div>
+            <h2 class="section-title">Overview</h2>
             <div class="overview-grid">
                 <div class="info-item">
-                    <label>Grades Served</label>
+                    <p class="info-label">Grades Served</p>
                     <div id="disp-grades"></div>
                 </div>
                 <div class="info-item">
-                    <label>School Type</label>
+                    <p class="info-label">School Type</p>
                     <div id="disp-type"></div>
                 </div>
                 <div class="info-item">
-                    <label>Caseload Model</label>
+                    <p class="info-label">Caseload Model</p>
                     <div id="disp-caseload"></div>
                 </div>
             </div>
 
-            <div class="section-title">Staffing & Ratios</div>
+            <h2 class="section-title">Staffing & Ratios</h2>
             <div class="staffing-container">
                 <div class="stat-box">
                     <div class="stat-label">Enrollment</div>
@@ -344,17 +367,18 @@
                 </div>
             </div>
 
-            <div class="section-title">Program Coordination</div>
-            <div class="coord-list" id="coord-list">
-                </div>
+            <h2 class="section-title">Program Coordination</h2>
+            <ul class="coord-list" id="coord-list"></ul>
 
         </div>
     </div>
     
-    <footer style="text-align: center; margin-top: 40px; color: #888; font-size: 0.9rem;">
+    </main>
+
+    <footer style="text-align: center; margin-top: 40px; color: #595959; font-size: 0.9rem;">
         <p>Data provided by Oakland County school counselor completion of the School Counseling Program Profiles 2025-2026 survey</p>
 	<p>Enrollment data provided by MI School Data 2024-2025 Student Enrollment Counts Report</p>
-	<p>If your school's data is not present, complete the <a href="https://forms.gle/74ZyNK9CkH2ELsoD7" target="_blank">School Counseling Program Profiles Survey</a></p>
+	<p>If your school's data is not present, complete the <a href="https://forms.gle/74ZyNK9CkH2ELsoD7" target="_blank" rel="noopener noreferrer">School Counseling Program Profiles Survey</a></p>
 	<p>Contact <a href="mailto:sean.dougherty@oakland.k12.mi.us?subject=School Counseling Program Profile">Sean Dougherty</a>, School Counseling Consultant at Oakland Schools, with any questions or if you notice errors in your school's data.</p>
     </footer>
 
@@ -2274,6 +2298,8 @@
     function renderProfile(record) {
         emptyState.style.display = 'none';
         profileDisplay.style.display = 'block';
+        profileDisplay.setAttribute('tabindex', '-1');
+        profileDisplay.focus();
 
         // Direct Data Mapping
         dispSchool.textContent = record["School Name"];
@@ -2292,7 +2318,7 @@
         for (const [jsonKey, displayLabel] of Object.entries(coordLabels)) {
             const rawValue = record[jsonKey];
             
-            const item = document.createElement('div');
+            const item = document.createElement('li');
             item.className = 'coord-item';
             
             const nameDiv = document.createElement('div');
